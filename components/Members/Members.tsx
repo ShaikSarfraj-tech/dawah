@@ -28,7 +28,6 @@ const Members = () => {
             Accept: "application/json",
             "Content-type": "application/json",
           },
-          mode: 'no-cors'
         });
 
         const res = await response.json();

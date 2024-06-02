@@ -17,7 +17,6 @@ const Member = () => {
             Accept: "application/json",
             "Content-type": "application/json",
           },
-          mode: 'no-cors'
         }
       );
 
@@ -28,7 +27,7 @@ const Member = () => {
       setMember(res);
     };
     fetchMemberDetails();
-  }, [member]);
+  }, []);
 
   function formatDate(dateString: any) {
     const months = [

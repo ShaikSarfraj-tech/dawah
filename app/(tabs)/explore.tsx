@@ -7,6 +7,7 @@ import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import "../globals.css";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function TabTwoScreen() {
   return (
@@ -86,7 +87,7 @@ export default function TabTwoScreen() {
     //     })}
     //   </Collapsible>
     // </ParallaxScrollView>
-    <View
+    <SafeAreaView
       style={{
         display: "flex",
         justifyContent: "center",
@@ -95,7 +96,7 @@ export default function TabTwoScreen() {
       }}
     >
       <Text>InshaAllah New Features are coming... </Text>
-    </View>
+    </SafeAreaView>
   );
 }
 

@@ -17,6 +17,7 @@ const Member = () => {
             Accept: "application/json",
             "Content-type": "application/json",
           },
+          mode: 'no-cors'
         }
       );
 

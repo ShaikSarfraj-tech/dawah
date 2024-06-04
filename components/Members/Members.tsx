@@ -22,13 +22,16 @@ const Members = () => {
     const fetchMembers = async () => {
       try {
         console.log("Fetching members...");
-        const response = await fetch("http://localhost:3030/api/v1/members", {
-          method: "GET",
-          headers: {
-            Accept: "application/json",
-            "Content-type": "application/json",
-          },
-        });
+        const response = await fetch(
+          "https://dawah-digital.onrender.com/api/v1/members",
+          {
+            method: "GET",
+            headers: {
+              Accept: "application/json",
+              "Content-type": "application/json",
+            },
+          }
+        );
 
         const res = await response.json();
 

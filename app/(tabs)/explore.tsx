@@ -90,12 +90,16 @@ export default function TabTwoScreen() {
     <SafeAreaView
       style={{
         display: "flex",
+        width: "100%",
+        height: "100%",
         justifyContent: "center",
         alignContent: "center",
         alignItems: "center",
       }}
     >
-      <Text>InshaAllah New Features are coming... </Text>
+      <Text style={{ color: "white" }}>
+        InshaAllah New Features are coming...{" "}
+      </Text>
     </SafeAreaView>
   );
 }

@@ -10,7 +10,7 @@ const Member = () => {
   useEffect(() => {
     const fetchMemberDetails = async () => {
       const response = await fetch(
-        `http://localhost:3030/api/v1/members/${memberId}`,
+        `https://dawah-digital.onrender.com/api/v1/members/${memberId}`,
         {
           method: "GET",
           headers: {
@@ -55,7 +55,7 @@ const Member = () => {
 
   const handleYes = async () => {
     const response = await fetch(
-      `http://localhost:3030/api/v1/members/${memberId}`,
+      `https://dawah-digital.onrender.com/api/v1/members/${memberId}`,
       {
         method: "PATCH",
         headers: {
@@ -70,7 +70,7 @@ const Member = () => {
 
     const res = await response.json();
 
-    setMember(res)
+    setMember(res);
 
     console.log("member response updated successfully: ", res);
   };
@@ -79,28 +79,30 @@ const Member = () => {
     <View
       style={{
         display: "flex",
-        justifyContent: "center",
+        width: "100%",
+        height: "100%",
+        // justifyContent: "center",
         alignContent: "center",
-        padding: 4
+        backgroundColor: "white",
+        padding: 4,
       }}
     >
       <Text>Name: {member.name}</Text>
       <Text>Last Met: {formatDate(member.lastMet)}</Text>
-      <Text>
-        Met Today:{" "}
+      <View style={{ display: "flex", flexDirection: "row" }}>
+        <Text>Met Today:</Text>
         <TouchableOpacity
           style={{
-            width: 30,
-            height: 25,
             backgroundColor: "blue",
             padding: 2,
-            borderRadius: 2,
+            marginLeft: 4,
+            borderRadius: 4,
           }}
           onPress={() => handleYes()}
         >
-          Yes
-        </TouchableOpacity>{" "}
-      </Text>
+          <Text style={{ color: "white" }}>Yes</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };

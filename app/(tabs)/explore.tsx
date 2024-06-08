@@ -97,7 +97,7 @@ export default function TabTwoScreen() {
         alignItems: "center",
       }}
     >
-      <Text style={{ color: "white" }}>
+      <Text style={{ color: "black" }}>
         InshaAllah New Features are coming...{" "}
       </Text>
     </SafeAreaView>

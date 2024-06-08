@@ -1,6 +1,6 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
 import React, { useEffect, useState } from "react";
-import { useLocalSearchParams } from "expo-router";
+import { Stack, useLocalSearchParams } from "expo-router";
 
 const Member = () => {
   const { memberId } = useLocalSearchParams();
@@ -21,11 +21,10 @@ const Member = () => {
       );
 
       const res = await response.json();
-
       console.log("response: ", res);
-
       setMember(res);
     };
+
     fetchMemberDetails();
   }, []);
 
@@ -69,38 +68,26 @@ const Member = () => {
     );
 
     const res = await response.json();
-
     setMember(res);
-
     console.log("member response updated successfully: ", res);
   };
 
   return (
-    <View
-      style={{
-        display: "flex",
-        width: "100%",
-        height: "100%",
-        // justifyContent: "center",
-        alignContent: "center",
-        backgroundColor: "white",
-        padding: 4,
-      }}
-    >
-      <Text>Name: {member.name}</Text>
-      <Text>Last Met: {formatDate(member.lastMet)}</Text>
-      <View style={{ display: "flex", flexDirection: "row" }}>
-        <Text>Met Today:</Text>
-        <TouchableOpacity
-          style={{
-            backgroundColor: "blue",
-            padding: 2,
-            marginLeft: 4,
-            borderRadius: 4,
-          }}
-          onPress={() => handleYes()}
-        >
-          <Text style={{ color: "white" }}>Yes</Text>
+    <View style={styles.container}>
+      <Stack.Screen options={{ headerTitle: `Member` }} />
+      <Image
+        source={{
+          uri: "https://static.vecteezy.com/system/resources/previews/024/293/032/non_2x/illustration-of-user-icon-in-gray-color-vector.jpg",
+        }}
+        resizeMode="cover"
+        style={styles.image}
+      />
+      <Text style={styles.name}>Name: {member.name}</Text>
+      <Text style={styles.lastMet}>Last Met: {formatDate(member.lastMet)}</Text>
+      <View style={styles.metTodayContainer}>
+        <Text style={styles.metTodayText}>Met Today:</Text>
+        <TouchableOpacity style={styles.yesButton} onPress={handleYes}>
+          <Text style={styles.yesButtonText}>Yes</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -108,3 +95,44 @@ const Member = () => {
 };
 
 export default Member;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+    backgroundColor: "white",
+    padding: 16,
+  },
+  image: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    marginBottom: 20,
+  },
+  name: {
+    fontSize: 18,
+    // fontWeight: "bold",
+    marginBottom: 10,
+  },
+  lastMet: {
+    fontSize: 16,
+    marginBottom: 20,
+  },
+  metTodayContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  metTodayText: {
+    fontSize: 16,
+  },
+  yesButton: {
+    backgroundColor: "blue",
+    padding: 8,
+    marginLeft: 10,
+    borderRadius: 4,
+  },
+  yesButtonText: {
+    color: "white",
+    fontSize: 16,
+  },
+});

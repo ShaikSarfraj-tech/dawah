@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   FlatList,
   RefreshControl,
+  Button,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import MembersContext from "@/context/MembersContext";
@@ -38,7 +39,7 @@ const Members = () => {
     }, 2000);
   };
 
-  const updateSearch = (search: any) => {
+  const updateSearch = (search: string) => {
     setSearch(search);
   };
 
@@ -46,7 +47,6 @@ const Members = () => {
     const fetchMembers = async () => {
       try {
         console.log("Fetching members...");
-        const skipped = (page - 1) * 10;
         const url = `https://dawah-digital.onrender.com/api/v1/members?$limit=${
           page * 10
         }`;
@@ -92,12 +92,8 @@ const Members = () => {
     }
   };
 
-  // useEffect(() => {
-  //   searchMemberName();
-  // }, [search]);
-
   const handlePress = (member: any) => {
-    router.push(`/members/member/${member._id}`);
+    router.push(`/members/member/${member?._id}`);
   };
 
   const renderItem = ({ item }: { item: any }) => (
@@ -119,7 +115,9 @@ const Members = () => {
   const fetchMoreData = () => {
     setPage(page + 1);
   };
-
+  const handleAdd = () => {
+    router.push("/members/add-member/addMember");
+  };
   return (
     <SafeAreaView style={styles.container}>
       <Stack.Screen options={{ headerShown: false }} />
@@ -153,15 +151,12 @@ const Members = () => {
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
-        // ListHeaderComponent={renderHeader}
-        // ListFooterComponent={renderFooter}
-        // ListEmptyComponent={renderEmpty}
         onEndReachedThreshold={0.2}
         onEndReached={fetchMoreData}
       />
       <FloatingAction
         actions={actions}
-        onPressItem={() => {
+        onPressItem={(item) => {
           router.push("/members/add-member/addMember");
         }}
       />
@@ -173,7 +168,7 @@ const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "white", margin: 5 },
   header: {
     width: "100%",
-    height: 100, // Increased height for better visibility
+    height: 100,
     borderColor: "black",
     flexDirection: "row",
     alignItems: "center",
@@ -181,7 +176,7 @@ const styles = StyleSheet.create({
   },
   image: { width: 75, height: 75, borderRadius: 37.5 },
   textContainer: { marginLeft: 15, justifyContent: "center" },
-  name: { fontSize: 18, fontWeight: "bold", color: "black" }, // Ensured text color is visible
+  name: { fontSize: 18, fontWeight: "bold", color: "black" },
   role: { fontSize: 16, color: "gray" },
   searchBar: {},
 });

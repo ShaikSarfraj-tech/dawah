@@ -1,3 +1,4 @@
+import CustomDateTimePickerModal from "@/components/DatePicker/CustomDatePickerModal";
 import { Stack, router } from "expo-router";
 import React, { useState } from "react";
 import {
@@ -117,7 +118,13 @@ const AddMember = () => {
           </TouchableOpacity>
         </View>
 
-        <DateTimePickerModal
+        {/* <DateTimePickerModal
+          isVisible={isDatePickerVisible}
+          mode="date"
+          onConfirm={handleConfirm}
+          onCancel={hideDatePicker}
+        /> */}
+        <CustomDateTimePickerModal
           isVisible={isDatePickerVisible}
           mode="date"
           onConfirm={handleConfirm}

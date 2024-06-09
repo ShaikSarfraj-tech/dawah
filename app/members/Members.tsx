@@ -121,28 +121,47 @@ const Members = () => {
   return (
     <SafeAreaView style={styles.container}>
       <Stack.Screen options={{ headerShown: false }} />
-      <SearchBar
-        platform="android"
-        style={styles.searchBar}
-        placeholder="Search..."
-        onChangeText={updateSearch}
-        value={search}
-        containerStyle={{
-          borderColor: "gray",
-          borderStyle: "solid",
-          borderWidth: 1,
-          borderRadius: 50,
-          marginHorizontal: 10,
+      <View
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          alignContent: "center",
+          alignItems: "center",
         }}
-        inputContainerStyle={{}}
-        inputStyle={{}}
-        leftIconContainerStyle={{
-          marginLeft: 30,
-        }}
-        rightIconContainerStyle={{}}
-        placeholderTextColor="#888"
-        showLoading={loading}
-      />
+      >
+        <View style={{ width: "80%", height: "100%" }}>
+          <SearchBar
+            platform="android"
+            style={styles.searchBar}
+            placeholder="Search..."
+            onChangeText={updateSearch}
+            value={search}
+            containerStyle={{
+              borderColor: "gray",
+              borderStyle: "solid",
+              borderWidth: 1,
+              borderRadius: 50,
+              marginHorizontal: 10,
+            }}
+            inputContainerStyle={{}}
+            inputStyle={{}}
+            leftIconContainerStyle={{
+              marginLeft: 30,
+            }}
+            rightIconContainerStyle={{}}
+            placeholderTextColor="#888"
+            showLoading={loading}
+          />
+        </View>
+        <View style={{ width: "20%" }}>
+          <Button
+            title="Add"
+            onPress={(item) => {
+              router.push("/members/add-member/addMember");
+            }}
+          />
+        </View>
+      </View>
       <FlatList
         contentContainerStyle={{ flexGrow: 1 }}
         data={users}
@@ -154,12 +173,12 @@ const Members = () => {
         onEndReachedThreshold={0.2}
         onEndReached={fetchMoreData}
       />
-      <FloatingAction
+      {/* <FloatingAction
         actions={actions}
         onPressItem={(item) => {
           router.push("/members/add-member/addMember");
         }}
-      />
+      /> */}
     </SafeAreaView>
   );
 };
@@ -178,7 +197,7 @@ const styles = StyleSheet.create({
   textContainer: { marginLeft: 15, justifyContent: "center" },
   name: { fontSize: 18, fontWeight: "bold", color: "black" },
   role: { fontSize: 16, color: "gray" },
-  searchBar: {},
+  searchBar: { width: "90%", height: "100%" },
 });
 
 export default Members;

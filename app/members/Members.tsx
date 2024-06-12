@@ -72,7 +72,7 @@ const Members = () => {
       }
     };
     fetchMembers();
-  }, []);
+  }, [page]);
 
   useEffect(() => {
     searchMemberName();

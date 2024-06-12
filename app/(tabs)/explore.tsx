@@ -8,6 +8,7 @@ import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import "../globals.css";
 import { SafeAreaView } from "react-native-safe-area-context";
+import AddMember from "../add-member/AddMember";
 
 export default function TabTwoScreen() {
   return (
@@ -97,9 +98,7 @@ export default function TabTwoScreen() {
         alignItems: "center",
       }}
     >
-      <Text style={{ color: "black" }}>
-        InshaAllah New Features are coming...{" "}
-      </Text>
+      <AddMember />
     </SafeAreaView>
   );
 }

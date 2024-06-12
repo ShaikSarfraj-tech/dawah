@@ -17,6 +17,7 @@ import { FloatingAction } from "react-native-floating-action";
 
 const Members = () => {
   const { members, setMembers } = useContext(MembersContext);
+  const [allUsers, setAllUsers] = useState([]);
   const [users, setUsers] = useState([]);
   const router = useRouter();
   const [search, setSearch] = useState("");
@@ -62,6 +63,7 @@ const Members = () => {
         const res = await response.json();
 
         console.log("response: ", res);
+        setAllUsers(res?.data);
         setUsers(res?.data);
       } catch (error: any) {
         console.error("Error fetching members:", error.message);
@@ -70,24 +72,29 @@ const Members = () => {
       }
     };
     fetchMembers();
-  }, [page]);
+  }, []);
+
+  useEffect(() => {
+    searchMemberName();
+  }, [search]);
 
   const searchMemberName = async () => {
     setLoading(true);
     try {
-      let url = `https://dawah-digital.onrender.com/api/v1/members`;
+      const filteredUsers = allUsers.filter((user: any) => {
+        console.log("user: ", user);
+        console.log("search: ", search);
 
-      if (search !== "") {
-        url += `?searchName=${search}`;
-      }
-      const searchResponse = await fetch(url, {
-        method: "GET",
-        cache: "no-cache",
+        if (!search) {
+          return true;
+        }
+
+        const regex = RegExp(search, "i");
+        return regex.test(user.name);
       });
-      const res = await searchResponse.json();
 
-      console.log("Search: ", res);
-      setUsers(res?.data);
+      console.log("Filtered Users: ", filteredUsers);
+      setUsers(filteredUsers);
     } catch (error) {
       console.log(error);
     } finally {
@@ -118,9 +125,11 @@ const Members = () => {
   const fetchMoreData = () => {
     setPage(page + 1);
   };
+
   const handleAdd = () => {
     router.push("/members/add-member/addMember");
   };
+
   return (
     <SafeAreaView style={styles.container}>
       <Stack.Screen options={{ headerShown: false }} />
@@ -132,7 +141,7 @@ const Members = () => {
           alignItems: "center",
         }}
       >
-        <View style={{ width: "80%", height: "100%" }}>
+        <View style={{ width: "100%", height: "100%" }}>
           <SearchBar
             platform="android"
             style={styles.searchBar}
@@ -156,28 +165,15 @@ const Members = () => {
             showLoading={loading}
           />
         </View>
-        <View style={{ width: "20%" }}>
+        {/* <View style={{ width: "20%" }}>
           <Button
             title="Add"
             onPress={(item) => {
               router.push("/add-member/AddMember");
             }}
           />
-        </View>
+        </View> */}
       </View>
-      {/* {loading ? (
-        <View
-          style={{
-            width: "100%",
-            height: "100%",
-            display: "flex",
-            alignContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Text>Loading...</Text>
-        </View>
-      ) : ( */}
       <FlatList
         contentContainerStyle={{ flexGrow: 1 }}
         data={users}
@@ -189,13 +185,6 @@ const Members = () => {
         onEndReachedThreshold={0.2}
         onEndReached={fetchMoreData}
       />
-      {/* )} */}
-      {/* <FloatingAction
-        actions={actions}
-        onPressItem={(item) => {
-          router.push("/members/add-member/addMember");
-        }}
-      /> */}
     </SafeAreaView>
   );
 };

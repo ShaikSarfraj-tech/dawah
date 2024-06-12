@@ -44,6 +44,7 @@ const Members = () => {
   };
 
   useEffect(() => {
+    setLoading(true);
     const fetchMembers = async () => {
       try {
         console.log("Fetching members...");
@@ -64,6 +65,8 @@ const Members = () => {
         setUsers(res?.data);
       } catch (error: any) {
         console.error("Error fetching members:", error.message);
+      } finally {
+        setLoading(false);
       }
     };
     fetchMembers();
@@ -157,11 +160,24 @@ const Members = () => {
           <Button
             title="Add"
             onPress={(item) => {
-              router.push("/members/add-member/addMember");
+              router.push("/add-member/AddMember");
             }}
           />
         </View>
       </View>
+      {/* {loading ? (
+        <View
+          style={{
+            width: "100%",
+            height: "100%",
+            display: "flex",
+            alignContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Text>Loading...</Text>
+        </View>
+      ) : ( */}
       <FlatList
         contentContainerStyle={{ flexGrow: 1 }}
         data={users}
@@ -173,6 +189,7 @@ const Members = () => {
         onEndReachedThreshold={0.2}
         onEndReached={fetchMoreData}
       />
+      {/* )} */}
       {/* <FloatingAction
         actions={actions}
         onPressItem={(item) => {

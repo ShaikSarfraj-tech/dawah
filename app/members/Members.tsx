@@ -165,14 +165,6 @@ const Members = () => {
             showLoading={loading}
           />
         </View>
-        {/* <View style={{ width: "20%" }}>
-          <Button
-            title="Add"
-            onPress={(item) => {
-              router.push("/add-member/AddMember");
-            }}
-          />
-        </View> */}
       </View>
       <FlatList
         contentContainerStyle={{ flexGrow: 1 }}

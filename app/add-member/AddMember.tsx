@@ -18,7 +18,7 @@ const AddMember = () => {
     name: "",
     lastMet: new Date(),
   });
-  const [date, setDate] = useState("" as any);
+  const [date, setDate] = useState(new Date("2024-09-23") as any);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
   const handleSave = async () => {
@@ -124,12 +124,12 @@ const AddMember = () => {
           onConfirm={handleConfirm}
           onCancel={hideDatePicker}
         /> */}
-        <CustomDateTimePickerModal
+        {/* <CustomDateTimePickerModal
           isVisible={isDatePickerVisible}
           mode="date"
           onConfirm={handleConfirm}
           onCancel={hideDatePicker}
-        />
+        /> */}
       </View>
       <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
         <Text style={styles.saveButtonText}>Save</Text>
@@ -143,7 +143,7 @@ export default AddMember;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    width: '100%',
+    width: "100%",
     alignItems: "center",
     backgroundColor: "#282c34",
     padding: 20,

@@ -7,9 +7,29 @@ import { ThemedView } from "@/components/ThemedView";
 // import Members from "@/components/Members/Members";
 import "../globals.css";
 import Members from "../members/Members";
+import { Stack, Tabs } from "expo-router";
+
+import { TabBarIcon } from "@/components/navigation/TabBarIcon";
+import { Colors } from "@/constants/Colors";
+import { useColorScheme } from "@/hooks/useColorScheme";
 
 export default function HomeScreen() {
-  return <Members />;
+  const colorScheme = useColorScheme();
+
+  return (
+    <>
+      <Stack>
+        <Stack.Screen
+          name="index"
+          options={{
+            headerShown: false,
+          }}
+        />
+      </Stack>
+
+      <Members />
+    </>
+  );
 }
 
 const styles = StyleSheet.create({

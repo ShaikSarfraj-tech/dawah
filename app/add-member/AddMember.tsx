@@ -10,16 +10,16 @@ import {
   View,
   Image,
 } from "react-native";
-import DateTimePickerModal from "react-native-modal-datetime-picker";
 import Icon from "react-native-vector-icons/FontAwesome"; // import your desired icon
+import RNDateTimePicker from "@react-native-community/datetimepicker";
 
 const AddMember = () => {
   const [member, setMember] = useState({
     name: "",
     lastMet: new Date(),
   });
-  const [date, setDate] = useState(new Date("2024-09-23") as any);
-  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const [date, setDate] = useState(new Date());
+  const [showDatePicker, setShowDatePicker] = useState(false);
 
   const handleSave = async () => {
     try {
@@ -44,30 +44,10 @@ const AddMember = () => {
       );
       const res = await response.json();
       console.log("New member added: ", res);
-      router.replace("members/Members");
+      router.push("/members/Members");
     } catch (error) {
       console.error(error);
     }
-  };
-
-  const showDatePicker = () => {
-    setDatePickerVisibility(true);
-  };
-
-  const hideDatePicker = () => {
-    setDatePickerVisibility(false);
-  };
-
-  const handleConfirm = (selectedDate: any) => {
-    setDate(selectedDate);
-    hideDatePicker();
-  };
-
-  const getDate = () => {
-    let tempDate = date.toString().split(" ");
-    return date !== ""
-      ? `${tempDate[0]} ${tempDate[1]} ${tempDate[2]} ${tempDate[3]}`
-      : "";
   };
 
   return (
@@ -103,33 +83,25 @@ const AddMember = () => {
             borderRadius: 5,
           }}
         >
-          <TextInput
-            style={styles.input2}
-            value={getDate()}
-            placeholder="Thu Jun 06 2024"
-            placeholderTextColor="#aaa"
-            editable={false}
-          />
+          {showDatePicker && (
+            <RNDateTimePicker
+              value={date}
+              mode="date" // This sets the mode to date
+              display="spinner" // This ensures it uses the spinner display
+              onChange={(event, selectedDate) => {
+                const currentDate = selectedDate || date;
+                setDate(currentDate);
+                setShowDatePicker(false);
+              }}
+            />
+          )}
           <TouchableOpacity
-            onPress={showDatePicker}
+            onPress={() => setShowDatePicker(!showDatePicker)}
             style={styles.iconContainer}
           >
             <Icon name="calendar" size={20} color="#fff" />
           </TouchableOpacity>
         </View>
-
-        {/* <DateTimePickerModal
-          isVisible={isDatePickerVisible}
-          mode="date"
-          onConfirm={handleConfirm}
-          onCancel={hideDatePicker}
-        /> */}
-        {/* <CustomDateTimePickerModal
-          isVisible={isDatePickerVisible}
-          mode="date"
-          onConfirm={handleConfirm}
-          onCancel={hideDatePicker}
-        /> */}
       </View>
       <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
         <Text style={styles.saveButtonText}>Save</Text>

@@ -9,6 +9,7 @@ import { ThemedView } from "@/components/ThemedView";
 import "../globals.css";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AddMember from "../add-member/AddMember";
+import { AddMemberProvider } from "@/context/AddMemberContext";
 
 export default function TabTwoScreen() {
   return (
@@ -98,7 +99,9 @@ export default function TabTwoScreen() {
         alignItems: "center",
       }}
     >
-      <AddMember />
+      <AddMemberProvider>
+        <AddMember />
+      </AddMemberProvider>
     </SafeAreaView>
   );
 }

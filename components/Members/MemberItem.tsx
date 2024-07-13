@@ -14,7 +14,7 @@ const MemberItem = ({ member, onPress }: { member: any; onPress: any }) => (
       resizeMode="cover"
       style={styles.image}
     />
-    <View style={styles.textContainer}>
+    <View key={member?._id} style={styles.textContainer}>
       <Text style={styles.name}>{member?.name}</Text>
       <Text style={styles.role}>Member</Text>
     </View>

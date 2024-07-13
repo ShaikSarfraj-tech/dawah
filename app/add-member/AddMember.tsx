@@ -1,6 +1,6 @@
 import CustomDateTimePickerModal from "@/components/DatePicker/CustomDatePickerModal";
 import { Stack, router } from "expo-router";
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Button,
   StyleSheet,
@@ -12,16 +12,34 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome"; // import your desired icon
 import RNDateTimePicker from "@react-native-community/datetimepicker";
+import AddMemberContext from "@/context/AddMemberContext";
+import * as Location from "expo-location";
 
 const AddMember = () => {
-  const [member, setMember] = useState({
-    name: "",
-    lastMet: new Date(),
-  });
+  const { member, setMember } = useContext(AddMemberContext);
   const [date, setDate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
+  const [location, setLocation] = useState(null as any);
+
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        console.error("Permission to access location was denied");
+        return;
+      }
+
+      let location: any = await Location.getCurrentPositionAsync({});
+      setLocation(location);
+      setMember({
+        ...member,
+        location: `${location.coords.latitude}, ${location.coords.longitude}`,
+      });
+    })();
+  }, []);
 
   const handleSave = async () => {
+    console.log("member: ", member);
     try {
       // if (!member.name.trim()) {
       //   console.error("Name field is required");
@@ -66,7 +84,7 @@ const AddMember = () => {
           style={styles.input}
           onChangeText={(newText) => setMember({ ...member, name: newText })}
           value={member.name}
-          placeholder="Enter name"
+          placeholder="Enter Name"
           placeholderTextColor="#aaa"
         />
       </View>
@@ -91,6 +109,13 @@ const AddMember = () => {
               onChange={(event, selectedDate) => {
                 const currentDate = selectedDate || date;
                 setDate(currentDate);
+                setMember({
+                  ...member,
+                  lastMet:
+                    currentDate instanceof Date
+                      ? currentDate.toISOString().split("T")[0]
+                      : "",
+                });
                 setShowDatePicker(false);
               }}
             />
@@ -103,6 +128,24 @@ const AddMember = () => {
           </TouchableOpacity>
         </View>
       </View>
+      <View style={styles.inputContainer}>
+        <Text style={styles.label}>Area: </Text>
+        <TextInput
+          style={styles.input}
+          onChangeText={(newText) => setMember({ ...member, area: newText })}
+          value={member.area}
+          placeholder="Enter Area"
+          placeholderTextColor="#aaa"
+        />
+      </View>
+      {location && (
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>Location: </Text>
+          <Text style={styles.locationText}>
+            {`${location.coords.latitude}, ${location.coords.longitude}`}
+          </Text>
+        </View>
+      )}
       <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
         <Text style={styles.saveButtonText}>Save</Text>
       </TouchableOpacity>
@@ -174,5 +217,10 @@ const styles = StyleSheet.create({
   saveButtonText: {
     color: "white",
     fontSize: 16,
+  },
+  locationText: {
+    color: "white",
+    fontSize: 16,
+    marginLeft: 10,
   },
 });

@@ -27,7 +27,7 @@ const Members = () => {
   const onRefresh = useCallback(() => {
     setRefreshing(true);
     setPage(1);
-    setUsers([]);
+    // setUsers([]);
     setTimeout(() => {
       setRefreshing(false);
     }, 2000);
@@ -43,7 +43,8 @@ const Members = () => {
       console.log("Fetching members...");
       const url = `https://dawah-digital.onrender.com/api/v1/members?$limit=10&$skip=${
         (page - 1) * 10
-      }`;
+      }&$sort[createdAt]=-1
+    }`;
       const response = await fetch(url, {
         method: "GET",
         headers: {
@@ -77,7 +78,7 @@ const Members = () => {
 
   const renderItem = useCallback(
     ({ item }: { item: any }) => (
-      <MemberItem member={item} onPress={handlePress} />
+      <MemberItem key={item?._id} member={item} onPress={handlePress} />
     ),
     [handlePress]
   );
@@ -92,13 +93,13 @@ const Members = () => {
     if (loading) {
       return <ActivityIndicator size="large" color="#0000ff" />;
     }
-    if (users.length >= totalUsers) {
-      return (
-        <View style={styles.noMoreMembersContainer}>
-          <Text style={styles.noMoreMembersText}>No more members</Text>
-        </View>
-      );
-    }
+    // if (users.length >= totalUsers) {
+    //   return (
+    //     <View style={styles.noMoreMembersContainer}>
+    //       <Text style={styles.noMoreMembersText}>No more members</Text>
+    //     </View>
+    //   );
+    // }
     return null;
   };
 
@@ -137,14 +138,14 @@ const Members = () => {
         contentContainerStyle={{ flexGrow: 1 }}
         data={users}
         renderItem={renderItem}
-        keyExtractor={(item) => item._id.toString()}
+        keyExtractor={(item) => item._id}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
         onEndReachedThreshold={0.2}
         onEndReached={fetchMoreData}
         ListFooterComponent={renderFooter}
-        ListEmptyComponent={renderEmptyComponent}
+        // ListEmptyComponent={renderEmptyComponent}
         getItemLayout={getItemLayout}
       />
     </SafeAreaView>

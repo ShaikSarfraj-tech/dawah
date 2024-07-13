@@ -1,4 +1,11 @@
-import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  StyleSheet,
+  Linking,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import { Stack, useLocalSearchParams } from "expo-router";
 
@@ -72,6 +79,12 @@ const Member = () => {
     console.log("member response updated successfully: ", res);
   };
 
+  const handleOpenMaps = () => {
+    const [latitude, longitude] = member.location.split(", ");
+    const url = `https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}`;
+    Linking.openURL(url);
+  };
+
   return (
     <View style={styles.container}>
       <Stack.Screen options={{ headerTitle: `Member` }} />
@@ -90,6 +103,15 @@ const Member = () => {
           <Text style={styles.yesButtonText}>Yes</Text>
         </TouchableOpacity>
       </View>
+      <Text style={styles.name}>Area: {member.area}</Text>
+      {member.location && (
+        <TouchableOpacity
+          style={styles.locationButton}
+          onPress={handleOpenMaps}
+        >
+          <Text style={styles.locationButtonText}>Go to Location</Text>
+        </TouchableOpacity>
+      )}
     </View>
   );
 };
@@ -132,6 +154,16 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
   yesButtonText: {
+    color: "white",
+    fontSize: 16,
+  },
+  locationButton: {
+    backgroundColor: "green",
+    padding: 10,
+    marginTop: 20,
+    borderRadius: 4,
+  },
+  locationButtonText: {
     color: "white",
     fontSize: 16,
   },
